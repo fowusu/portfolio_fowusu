@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>cube</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+        }
+
+        #c {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="c"></canvas>
+
+    <script class="home-img" src="./node_modules/three/build/three.js"></script>
+    <script> // Our Javascript will go here. 
+        
+       
+
+        const canvas = document.querySelector('#c');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 5000);
+        camera.position.set(-1, 0, 5);
+        const renderer = new THREE.WebGLRenderer({ canvas });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+        scene.background = new THREE.Color(0x111111);
+        scene.fog = new THREE.Fog(scene.background, 1, 8);
+
+        const aspect = 2;
+
+     
+
+        // LIGHTS
+
+        const pointlight = new THREE.PointLight( 0xff0000, 1, 100 );
+pointlight.position.set( 0, 0, 50 );
+scene.add( pointlight );
+
+        const hemlight = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
+scene.add( hemlight );
+
+        const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.9 );
+scene.add( directionalLight );
+
+        const light = new THREE.AmbientLight( 0x404040 ); // soft white light
+scene.add( light );
+        
+        //cube 
+
+        const geometry = new THREE.BoxGeometry();
+        const material = new THREE.MeshPhongMaterial({ color: 0xfca311 });
+        //const material = new THREE.MeshBasicMaterial({ color: 0xfca311 });
+        const cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+
+
+
+
+        //render scene 
+        function animate() {
+            requestAnimationFrame(animate);
+            cube.rotation.x += 0.01; cube.rotation.y += 0.01;
+            renderer.render(scene, camera);
+
+        }
+        animate();
+    </script>
+
+</body>
+
+</html>
